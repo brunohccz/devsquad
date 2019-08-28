@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\VerifyEmailException;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -21,13 +25,6 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -36,4 +33,77 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /**
+     * Attempt to log the user into the application.
+     *
+     * @param Request $request
+     * @return bool
+     */
+    protected function attemptLogin(Request $request)
+    {
+        $token = $this->guard()->attempt($this->credentials($request));
+
+        if (!$token) {
+            return false;
+        }
+
+        $user = $this->guard()->user();
+        if ($user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
+            return false;
+        }
+
+        $this->guard()->setToken($token);
+
+        return true;
+    }
+
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $this->clearLoginAttempts($request);
+
+        $token = (string) $this->guard()->getToken();
+        $expiration = $this->guard()->getPayload()->get('exp');
+
+        return response()->json([
+            'token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $expiration - time(),
+        ]);
+    }
+
+    /**
+     * Get the failed login response instance.
+     *
+     * @param Request $request
+     * @throws VerifyEmailException
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        $user = $this->guard()->user();
+        if($user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
+            throw VerifyEmailException::forUser($user);
+        }
+
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ]);
+    }
+
+    /**
+     * Log the user out the application.
+     *
+     * @param Request $request
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+    }
+
 }
