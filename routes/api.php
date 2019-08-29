@@ -13,7 +13,7 @@
 
 Route::middleware('auth:api')->group(function () {
     Route::get('auth/user', 'Auth\UserController');
-
+    Route::apiResource('products', 'ProductController');
 });
 
 Route::middleware('guest:api')->group(function () {
