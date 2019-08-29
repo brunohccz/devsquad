@@ -7,35 +7,44 @@ Vue.use(Router);
 export default new Router({
     mode: 'history',
     routes: [
-        {
-          path: '*',
-          component: () => import('./views/Errors/NotFound')
-        },
+        // Landing Page
         {
             path: '/',
-            redirect: 'home',
+            redirect: 'landing-page',
+            component: AppLayout,
+            meta: {
+                auth: undefined
+            },
+            children: [
+                {
+                    path: '/',
+                    name: 'home',
+                    component: () => import(/* webpackChunkName: "app" */ './views/Home'),
+                },
+            ]
+        },
+        // Auth
+        {
+            path: '/auth',
+            redirect: 'login',
             component: AppLayout,
             meta: {
               auth: false
             },
             children: [
                 {
-                    path: '/',
-                    name: 'home',
-                    component: () => import(/* webpackChunkName: "loader" */ './views/Home'),
-                },
-                {
                     path: '/login',
                     name: 'login',
-                    component: () => import(/* webpackChunkName: "loader" */ './views/Home'),
+                    component: () => import(/* webpackChunkName: "auth" */ './views/Auth/Login'),
                 },
                 {
                     path: '/register',
                     name: 'register',
-                    component: () => import(/* webpackChunkName: "loader" */ './views/Home'),
+                    component: () => import(/* webpackChunkName: "auth" */ './views/Auth/Register'),
                 }
             ]
         },
+        // Dashboard
         {
             path: '/dashboard',
             redirect: 'dashboard',
@@ -47,9 +56,17 @@ export default new Router({
                 {
                     path: '/',
                     name: 'dashboard',
-                    component: () => import(/* webpackChunkName: "loader" */ './views/Home')
+                    component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard/Home'),
                 }
             ]
+        },
+        {
+            path: '/403',
+            component: () => import('./views/Errors/Forbidden'),
+        },
+        {
+            path: '*',
+            component: () => import('./views/Errors/NotFound')
         },
     ]
 });

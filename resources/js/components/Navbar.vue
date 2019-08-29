@@ -13,7 +13,7 @@
                 </ul>
 
                 <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto" v-if="!$auth.check()">
                     <!-- Authentication Links -->
                     <li class="nav-item">
                         <router-link class="nav-link" to="login">Login</router-link>
@@ -22,17 +22,24 @@
                         <router-link class="nav-link" to="register">Register</router-link>
                     </li>
                 </ul>
+                <ul class="navbar-nav ml-auto" v-else>
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ $auth.user().name }} <span class="caret"></span>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a href="javascript:void(0)" class="dropdown-item" @click="$auth.logout({redirect: '/login'})">Logout</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 </template>
 
 <script>
-  export default {
+export default {
     name: "Navbar"
-  }
+}
 </script>
-
-<style scoped>
-
-</style>

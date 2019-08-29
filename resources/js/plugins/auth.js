@@ -7,7 +7,13 @@ const config = {
     http: axios,
     router,
     tokenStore: ['localStorage'],
-    rolesVar: 'role'
+    loginData: {
+        redirect: '/dashboard'
+    },
+    registerData: {
+        redirect: '/dashboard',
+        autoLogin: true
+    }
 };
 
 export default config

@@ -69,13 +69,10 @@ class LoginController extends Controller
         $this->clearLoginAttempts($request);
 
         $token = (string) $this->guard()->getToken();
-        $expiration = $this->guard()->getPayload()->get('exp');
 
         return response()->json([
-            'token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $expiration - time(),
-        ]);
+            'status' => 'success'
+        ])->header('Authorization', $token);
     }
 
     /**

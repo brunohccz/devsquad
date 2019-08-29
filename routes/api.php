@@ -12,11 +12,11 @@
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('logout', 'Auth\LoginController@logout');
+    Route::get('auth/user', 'Auth\UserController');
 
 });
 
 Route::middleware('guest:api')->group(function () {
-    Route::post('login', 'Auth\LoginController@login');
-    Route::post('register', 'Auth\RegisterController@register');
+    Route::post('auth/login', 'Auth\LoginController@login');
+    Route::post('auth/register', 'Auth\RegisterController@register');
 });
