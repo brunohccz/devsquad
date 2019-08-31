@@ -25,6 +25,13 @@ class Product extends Model
     protected $fillable = ['name', 'slug', 'image', 'description', 'category_id', 'price'];
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['category'];
+
+    /**
      * The mutator will save the slug field automatically.
      *
      * @param $value

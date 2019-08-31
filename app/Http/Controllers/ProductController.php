@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Http\Resources\ProductResourceCollection;
 use App\Product;
 use App\Traits\UploadTrait;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -14,13 +16,14 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return ProductResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::orderBy('name')->paginate(10);
+        $products = Product::where("name", "LIKE", "%{$request->query('search')}%")->orderBy('name')->paginate(2);
 
-        return response()->json($products);
+        return new ProductResourceCollection($products);
     }
 
     /**
