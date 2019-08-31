@@ -43,6 +43,15 @@ class Product extends Model
     }
 
     /**
+     *
+     * @param $value
+     */
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = money_format('%i', (float) $value);
+    }
+
+    /**
      * Define an inverse one-to-one or many relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

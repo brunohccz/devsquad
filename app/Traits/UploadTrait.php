@@ -12,19 +12,22 @@ trait UploadTrait
     /**
      * @param UploadedFile $uploadedFile
      * @param null $folder
+     * @param string $visibility
      * @param null $disk
      * @return false|string
      */
-    public function fileUpload(UploadedFile $uploadedFile, $folder = null, $disk = null)
+    public function fileUpload(UploadedFile $uploadedFile, $folder = null, $visibility = 'public', $disk = null)
     {
         $name = Str::random(30) . '.' . $uploadedFile->getClientOriginalExtension();
 
         $path = $uploadedFile->storeAs($folder, $name, [
             'disk' => $disk ?? config('filesystems.default'),
-            'visibility' => 'public'
+            'visibility' => $visibility
         ]);
 
-        return Storage::disk(config('filesystems.default'))->url($path);
+        return $visibility == 'public'
+            ? Storage::disk(config('filesystems.default'))->url($path)
+            : $path;
     }
 
     /**

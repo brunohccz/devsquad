@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductImportRequest;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
@@ -93,5 +94,21 @@ class ProductController extends Controller
         }
 
         $product->delete();
+    }
+
+    /**
+     * Import csv document
+     *
+     * @param ProductImportRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function import(ProductImportRequest $request)
+    {
+        $request->user()->files()->create([
+            'name' => $request->file('csv')->getClientOriginalName(),
+            'path' => $this->fileUpload($request->file('csv'), 'csv', 'private')
+        ]);
+
+        return response()->json(['status' => 'success', 'msg' => 'We are processing the file, please wait for confirmation email']);
     }
 }

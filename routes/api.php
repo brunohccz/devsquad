@@ -13,8 +13,11 @@
 
 Route::middleware('auth:api')->group(function () {
     Route::get('auth/user', 'Auth\UserController');
-    Route::apiResource('products', 'ProductController');
+
     Route::get('categories', 'CategoryController@index');
+
+    Route::apiResource('products', 'ProductController');
+    Route::post('products/import', 'ProductController@import');
 });
 
 Route::middleware('guest:api')->group(function () {
