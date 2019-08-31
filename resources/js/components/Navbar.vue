@@ -12,6 +12,9 @@
                     <li class="nav-item">
                         <router-link class="nav-link" :to="{name: 'products.index'}">Products</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{name: 'products.import'}">Import CSV</router-link>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

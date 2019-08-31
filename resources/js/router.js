@@ -77,7 +77,12 @@ export default new Router({
                     path: '/products/:id-:slug/edit',
                     name: 'products.edit',
                     component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard/Products/Edit'),
-                }
+                },
+                {
+                    path: '/products/import',
+                    name: 'products.import',
+                    component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard/Products/Import'),
+                },
             ]
         },
         {

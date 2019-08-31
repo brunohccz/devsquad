@@ -75,3 +75,22 @@ export const deleteProduct = async id => {
         //
     }
 };
+
+export const importCsv = async file => {
+    try {
+        const formData = new FormData();
+
+        formData.append('csv', file);
+
+        const { data } = await axios.post('products/import', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        return data;
+
+    } catch (e) {
+        throw (e.response.data.errors);
+    }
+};
