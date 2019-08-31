@@ -35,7 +35,7 @@ class ProductController extends Controller
             'name'        => $request->name,
             'image'       => !is_null($request->image) ? $this->fileUpload($request->file('image'), 'public/products') : null,
             'description' => $request->description,
-            'category'    => $request->category,
+            'category_id'    => $request->category,
             'price'       => $request->price,
         ]);
 
@@ -66,7 +66,7 @@ class ProductController extends Controller
             'name'        => $request->name,
             'image'       => !is_null($request->image) ? $this->fileUpload($request->file('image'), 'public/products') : $product->image,
             'description' => $request->description ?? $product->description,
-            'category'    => $request->category,
+            'category_id'    => $request->category,
             'price'       => $request->price,
         ]);
 

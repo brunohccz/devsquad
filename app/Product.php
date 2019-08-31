@@ -22,7 +22,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'image', 'description', 'category', 'price'];
+    protected $fillable = ['name', 'slug', 'image', 'description', 'category_id', 'price'];
 
     /**
      * The mutator will save the slug field automatically.
