@@ -6,7 +6,7 @@
                     <div class="card-header">
                         Products
                         <div class="float-right">
-                            <button class="btn btn-sm btn-primary">Create Product</button>
+                            <router-link :to="{name: 'products.create'}" class="btn btn-sm btn-primary">Create Product</router-link>
                         </div>
                     </div>
                     <table class="table">
@@ -42,7 +42,7 @@
                     </table>
                 </div>
                 <div class="mt-2">
-                    <pagination :pagination="products.meta" @paginate="getProducts()" :offset="2"></pagination>
+                    <pagination :pagination="products.meta" @paginate="getProducts()" :offset="10"></pagination>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@ export default {
     },
     methods: {
         getProducts: async function () {
-            this.products = await getProducts(this.products.meta.current_page)
+            this.products = await getProducts(this.products.meta.current_page, this.search)
         },
     },
     components: {

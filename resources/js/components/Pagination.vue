@@ -48,9 +48,6 @@ export default {
             return pagesArray;
         }
     },
-    mounted() {
-      console.log(this.pagination);
-    },
     methods : {
         changePage(page) {
             this.pagination.current_page = page;
