@@ -31,3 +31,47 @@ export const storeProduct = async ({ name, category, description, price, image }
         throw (e.response.data.errors);
     }
 };
+
+export const getProduct = async id => {
+    try {
+        const { data } = await axios.get(`products/${id}`);
+        return data;
+    } catch (e) {
+        //
+    }
+};
+
+export const editProduct = async ({ id, name, category, description, price, image }) => {
+    try {
+        const formData = new FormData();
+
+        formData.append('_method', 'patch');
+        formData.append('name', name);
+        formData.append('category', category);
+        formData.append('description', description);
+        formData.append('price', price);
+        if (image instanceof File) {
+            formData.append('image', image);
+        }
+
+        const { data } = await axios.post(`products/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        return data;
+
+    } catch (e) {
+        throw (e.response.data.errors);
+    }
+};
+
+export const deleteProduct = async id => {
+    console.log(id);
+    try {
+        await axios.delete(`products/${id}`);
+    } catch (e) {
+        //
+    }
+};

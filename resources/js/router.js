@@ -69,12 +69,12 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard/Products/Create'),
                 },
                 {
-                    path: '/products/:id',
+                    path: '/products/:id-:slug',
                     name: 'products.show',
                     component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard/Products/Show'),
                 },
                 {
-                    path: '/products/:id/edit',
+                    path: '/products/:id-:slug/edit',
                     name: 'products.edit',
                     component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard/Products/Edit'),
                 }

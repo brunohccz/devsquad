@@ -26,9 +26,9 @@
                                 <td>{{ product.price }}</td>
                                 <td>{{ product.category }}</td>
                                 <td>
-                                    <a href="" class="btn btn-sm btn-dark">See</a>
-                                    <a href="" class="btn btn-sm btn-dark">Edit</a>
-                                    <a href="" class="btn btn-sm btn-danger">Delete</a>
+                                    <router-link :to="{name: 'products.show', params: { id: product.id, slug: product.slug }}" class="btn btn-sm btn-dark">See</router-link>
+                                    <router-link :to="{name: 'products.edit', params: { id: product.id, slug: product.slug }}" class="btn btn-sm btn-dark">Edit</router-link>
+                                    <a href="javascript:void(0);" @click="deleteProduct(product.id)" class="btn btn-sm btn-danger">Delete</a>
                                 </td>
                             </tr>
                             <tr v-if="products.meta.total <= 0">
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { getProducts } from '~/services/products.service';
+import { getProducts, deleteProduct } from '~/services/products.service';
 import pagination from '~/components/Pagination';
 
 export default {
@@ -74,6 +74,14 @@ export default {
         getProducts: async function () {
             this.products = await getProducts(this.products.meta.current_page, this.search)
         },
+        deleteProduct: async function (id) {
+            const res = confirm('Are you sure you want to delete this product?');
+            if (res) {
+                await deleteProduct(id);
+                await this.getProducts();
+                alert('Product deleted');
+            }
+        }
     },
     components: {
         pagination
