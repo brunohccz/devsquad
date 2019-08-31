@@ -50,11 +50,11 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @return ProductResource
      */
     public function show(Product $product)
     {
-        return response()->json($product);
+        return new ProductResource($product);
     }
 
     /**
@@ -62,7 +62,7 @@ class ProductController extends Controller
      *
      * @param ProductUpdateRequest $request
      * @param \App\Product $product
-     * @return \Illuminate\Http\JsonResponse
+     * @return ProductResource
      */
     public function update(ProductUpdateRequest $request, Product $product)
     {
@@ -74,7 +74,7 @@ class ProductController extends Controller
             'price'       => $request->price,
         ]);
 
-        return response()->json($product);
+        return new ProductResource($product);
     }
 
     /**
