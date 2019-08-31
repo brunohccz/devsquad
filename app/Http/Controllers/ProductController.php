@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductResourceCollection;
 use App\Product;
 use App\Traits\UploadTrait;
@@ -21,7 +22,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::where("name", "LIKE", "%{$request->query('search')}%")->orderBy('name')->paginate(2);
+        $products = Product::where("name", "LIKE", "%{$request->query('search')}%")->orderBy('name')->paginate(10);
 
         return new ProductResourceCollection($products);
     }
@@ -30,7 +31,7 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      *
      * @param ProductStoreRequest $request
-     * @return \Illuminate\Http\Response
+     * @return ProductResource
      */
     public function store(ProductStoreRequest $request)
     {
@@ -42,7 +43,7 @@ class ProductController extends Controller
             'price'       => $request->price,
         ]);
 
-        return response()->json($product);
+        return new ProductResource($product);
     }
 
     /**
