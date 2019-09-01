@@ -4,24 +4,30 @@ import AppLayout from '~/layouts/AppLayout';
 
 Vue.use(Router);
 
+// Errors
+import NotFound from './views/Errors/NotFound';
+import Forbidden from './views/Errors/Forbidden';
+
+// Auth
+import Login from './views/Auth/Login';
+import Register from './views/Auth/Register';
+
+// Dashboard
+import DashboardHome from './views/Dashboard/Home';
+
+// Products
+import Products from './views/Dashboard/Products/Index';
+import ProductCreate from './views/Dashboard/Products/Create';
+import ProductEdit from './views/Dashboard/Products/Edit';
+import ProductView from './views/Dashboard/Products/Show';
+import ProductsImport from './views/Dashboard/Products/Import';
+
 export default new Router({
     mode: 'history',
     routes: [
-        // Landing Page
         {
             path: '/',
-            redirect: 'landing-page',
-            component: AppLayout,
-            meta: {
-                auth: undefined
-            },
-            children: [
-                {
-                    path: '/',
-                    name: 'home',
-                    component: () => import(/* webpackChunkName: "app" */ './views/Home'),
-                },
-            ]
+            redirect: 'auth'
         },
         // Auth
         {
@@ -35,12 +41,12 @@ export default new Router({
                 {
                     path: '/login',
                     name: 'login',
-                    component: () => import(/* webpackChunkName: "auth" */ './views/Auth/Login'),
+                    component: Login,
                 },
                 {
                     path: '/register',
                     name: 'register',
-                    component: () => import(/* webpackChunkName: "auth" */ './views/Auth/Register'),
+                    component: Register,
                 }
             ]
         },
@@ -56,42 +62,42 @@ export default new Router({
                 {
                     path: '/',
                     name: 'dashboard',
-                    component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard/Home'),
+                    component: DashboardHome,
                 },
                 {
                     path: '/products',
                     name: 'products.index',
-                    component: () => import(/* webpackChunkName: "dashboard" */ '~/views/Dashboard/Products/Index'),
+                    component: Products,
                 },
                 {
                     path: '/products/create',
                     name: 'products.create',
-                    component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard/Products/Create'),
+                    component: ProductCreate,
                 },
                 {
                     path: '/products/:id-:slug',
                     name: 'products.show',
-                    component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard/Products/Show'),
+                    component: ProductView,
                 },
                 {
                     path: '/products/:id-:slug/edit',
                     name: 'products.edit',
-                    component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard/Products/Edit'),
+                    component: ProductEdit,
                 },
                 {
                     path: '/products/import',
                     name: 'products.import',
-                    component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard/Products/Import'),
+                    component: ProductsImport,
                 },
             ]
         },
         {
             path: '/403',
-            component: () => import('./views/Errors/Forbidden'),
+            component: Forbidden,
         },
         {
             path: '*',
-            component: () => import('./views/Errors/NotFound')
+            component: NotFound
         },
     ]
 });

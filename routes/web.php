@@ -11,4 +11,5 @@
 |
 */
 
+Route::get('landing-page', 'LandingPageController');
 Route::get('/{any?}', 'SinglePageController@index')->where('any', '(.*)');

@@ -48,7 +48,7 @@ class Product extends Model
      */
     public function setPriceAttribute($value)
     {
-        $this->attributes['price'] = money_format('%i', (float) $value);
+        $this->attributes['price'] = (float) $value;
     }
 
     /**
