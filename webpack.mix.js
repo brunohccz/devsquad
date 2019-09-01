@@ -21,3 +21,6 @@ mix.webpackConfig({
 
 mix.js('resources/js/main.js', 'public/js/bundle.js')
     .sass('resources/sass/app.scss', 'public/css');
+
+mix.sass('resources/sass/landing.scss', 'public/css')
+    .copy('resources/images', 'public/images');
